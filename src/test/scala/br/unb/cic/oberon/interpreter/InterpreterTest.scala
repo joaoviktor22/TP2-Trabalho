@@ -679,4 +679,15 @@ class InterpreterTest extends AnyFunSuite {
     assert(interpreter.env.lookup("a") == Some(BoolValue(false)))
     assert(interpreter.env.lookup("b") == Some(BoolValue(true)))
   }
+
+  test(testName = "Testing New") {
+    val module = ScalaParser.parseResource("Pointers/ListAssign_G9.oberon")
+
+    assert(module.name == "ListAssign")
+
+    module.accept(interpreter)
+
+    assert(interpreter.env.lookup("ListInt") == Some(IntValue(25)))
+
+  }
 }

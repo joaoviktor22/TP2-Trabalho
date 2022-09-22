@@ -73,5 +73,17 @@ class EvalExpressionVisitorTest extends AnyFunSuite {
     assert(exp.accept(visitor) == IntValue(40))
   }
 
+  test("Test New Stmt") {
+    val interpreter = new Interpreter()
+    interpreter.setGlobalVariable("IntList", FieldAccessExpression(IntValue(10), "value"))
+    interpreter.setLocalVariable("ListInt", PointerAccessExpression("IntList"))
+
+    val visitor = new EvalExpressionVisitor(interpreter)
+
+    val stmt = NewStmt("ListInt")
+
+    assert(stmt.accept(visitor) == IntValue(10))
+  }
+
   // TODO: Write test cases  dealing with different scopes and name collision.
 }

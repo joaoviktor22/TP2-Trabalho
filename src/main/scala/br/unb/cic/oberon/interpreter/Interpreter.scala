@@ -113,7 +113,8 @@ class Interpreter extends OberonVisitorAdapter {
       case WriteStmt(exp) =>
         printStream.println(evalExpression(exp))
 
-
+      case NewStmt(name) =>
+        env.setVariable(name, PointerAccessExpression(name))
 
       case IfElseStmt(condition, thenStmt, elseStmt) =>
         if (evalCondition(condition)) thenStmt.accept(this)
