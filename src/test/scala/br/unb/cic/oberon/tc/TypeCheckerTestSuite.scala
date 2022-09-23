@@ -1368,7 +1368,7 @@ class TypeCheckerTestSuite  extends AbstractTestSuite {
   }
   test("Test NewStmt") {
     val visitor = new TypeChecker()
-    visitor.env.setGlobalVariable("IntList", RecordType(List()))
+    visitor.env.setGlobalVariable("IntList", RecordType(List(VariableDeclaration("next", PointerType(...))))
     visitor.env.setGlobalVariable("ListInt", PointerType(RecordType(List(VariableDeclaration("value", IntegerType)))))
     val stmt01 = new NewStmt("ListInt")
 

@@ -19,7 +19,7 @@ import scala.collection.mutable.{ListBuffer, Map, Stack}
  */
 class Environment[T] {
   private var top_loc = 0
-  private val locations = Map.empty[Location, T]
+  private val locations = Map.empty[AbsLocation, T]
   private val global = Map.empty[String, Location]
   private val stack = Stack.empty[Map[String, Location]]
   private val procedures = Map.empty[String, Procedure]

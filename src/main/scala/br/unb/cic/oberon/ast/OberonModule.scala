@@ -159,8 +159,11 @@ case class CharValue(value: Char) extends Value { type T = Char }
 case class StringValue(value: String) extends Value { type T = String }
 case class BoolValue(value: Boolean) extends Value { type T = Boolean }
 
+trait AbsLocation extends Expression
+case class Location(loc: Int) extends AbsLocation
+case object Nil extends AbsLocation
+
 case object NullValue extends Expression
-case class Location(loc: Int) extends Expression
 case class Brackets(exp: Expression) extends Expression
 case class ArrayValue(value: ListBuffer[Expression]) extends Value { type T = ListBuffer[Expression] }
 case class ArraySubscript(arrayBase: Expression, index: Expression) extends Expression
