@@ -5,7 +5,12 @@ VAR
 
 BEGIN
     NEW(Value);
-    Value := 15
+    NEW(Value);
+    Value := 22;
+    NEW(Value);
+    Value := 44;
+    NEW(Value);
+    Value := 66
 END
 
 END ListAssign.

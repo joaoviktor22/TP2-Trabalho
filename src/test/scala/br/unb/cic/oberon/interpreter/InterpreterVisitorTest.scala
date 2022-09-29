@@ -41,6 +41,6 @@ class InterpreterVisitorTest extends AnyFunSuite{
     interpreter.setTestEnvironment()
     module.accept(interpreter)
 
-    assert(interpreter.env.lookup("Value") == Some(IntValue(15)))
+    assert(interpreter.env.lookup("Value") == Some(IntValue(66)))
   }
 }

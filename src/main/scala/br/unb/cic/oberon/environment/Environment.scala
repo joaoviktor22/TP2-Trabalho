@@ -34,7 +34,6 @@ class Environment[T] {
   }
 
   def setPointerVariable(name: String): Unit = {
-    top_loc += 1
     global += name -> NilValue
   }
 
@@ -56,6 +55,18 @@ class Environment[T] {
       locations(stack.top(name)) = value
     }
     else if(global.contains(name)) {
+      locations(global(name)) = value
+    }
+    else throw new RuntimeException("Variable " + name + " is not defined")
+  }
+
+  def setNewVariable(name: String, value: T): Unit = {
+    top_loc += 1
+    if (stack.nonEmpty && stack.top.contains(name)) {
+      locations(stack.top(name)) = value
+    }
+    else if (global.contains(name)) {
+      global(name) = Location(top_loc)
       locations(global(name)) = value
     }
     else throw new RuntimeException("Variable " + name + " is not defined")

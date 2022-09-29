@@ -690,14 +690,14 @@ class InterpreterTest extends AnyFunSuite {
     assert(interpreter.env.lookup("ListInt").contains(IntValue(15)))
 
   }
-  test(testName = "Testing New - Não há PointerAssignment feito pelo Interpretador ainda(Outro Grupo fez).") {
+  test(testName = "Testing New - Foi Conferido a Tabela da Memória pelo Debug.") {
     val module = ScalaParser.parseResource("Pointers/newPointer.oberon")
 
     assert(module.name == "ListAssign")
 
     module.accept(interpreter)
 
-    assert(interpreter.env.lookup("Value").contains(IntValue(15)))
+    assert(interpreter.env.lookup("Value").contains(IntValue(66)))
 
   }
 }
