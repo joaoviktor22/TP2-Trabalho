@@ -59,6 +59,7 @@ class Interpreter extends OberonVisitorAdapter {
   override def visit(variable: VariableDeclaration): Unit = {
     variable.variableType match {
       case ArrayType(length, _) => env.setGlobalVariable(variable.name, ArrayValue(ListBuffer.fill(length)(Undef())))
+      case PointerType(variableType) => env.setPointerVariable(variable.name)
       case _ => env.setGlobalVariable(variable.name, Undef())
     }
   }
@@ -235,6 +236,7 @@ class EvalExpressionVisitor(val interpreter: Interpreter) extends OberonVisitorA
     case BoolValue(v) => BoolValue(v)
     case StringValue(v) => StringValue(v)
     case NullValue => NullValue
+    case NilValue => NilValue
     case Undef() => Undef()
     case VarExpression(name) => interpreter.env.lookup(name).get
     case ArraySubscript(arrayBase, index) => arrayBase match {

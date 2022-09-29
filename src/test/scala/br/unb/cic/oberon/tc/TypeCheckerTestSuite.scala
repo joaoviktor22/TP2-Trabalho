@@ -1366,9 +1366,9 @@ class TypeCheckerTestSuite  extends AbstractTestSuite {
 
     assert(typeCheckerErrors.length == 1)
   }
-  test("Test NewStmt") {
+  test("Test NewStmt - Correct attribute type - NEW(POINTER TYPE)") {
     val visitor = new TypeChecker()
-    visitor.env.setGlobalVariable("IntList", RecordType(List(VariableDeclaration("next", PointerType(...))))
+    visitor.env.setGlobalVariable("IntList", RecordType(List(VariableDeclaration("next", PointerType(IntegerType)))))
     visitor.env.setGlobalVariable("ListInt", PointerType(RecordType(List(VariableDeclaration("value", IntegerType)))))
     val stmt01 = new NewStmt("ListInt")
 
@@ -1377,5 +1377,29 @@ class TypeCheckerTestSuite  extends AbstractTestSuite {
     val typeCheckerErrors = stmts.accept(visitor)
 
     assert(typeCheckerErrors.length == 0)
+  }
+  ignore("Test NewStmt - Record with Pointer to Same Record") {
+    val visitor = new TypeChecker()
+    visitor.env.setGlobalVariable("IntList", RecordType(List(VariableDeclaration("value", IntegerType),VariableDeclaration("next", PointerType(RecordType.asInstanceOf[RecordType])))))
+    visitor.env.setGlobalVariable("ListInt",  PointerType(RecordType(List(VariableDeclaration("value", IntegerType),VariableDeclaration("next", PointerType(RecordType.asInstanceOf[RecordType]))))))
+    val stmt01 = new NewStmt("ListInt")
+
+    val stmts = SequenceStmt(List(stmt01))
+
+    val typeCheckerErrors = stmts.accept(visitor)
+
+    assert(typeCheckerErrors.length == 1)
+  }
+  test("Test NewStmt - Wrong attribute type - NEW(NOT POINTER TYPE)") {
+    val visitor = new TypeChecker()
+    visitor.env.setGlobalVariable("IntList", RecordType(List(VariableDeclaration("next", PointerType(IntegerType)))))
+    visitor.env.setGlobalVariable("ListInt", IntegerType)
+    val stmt01 = new NewStmt("ListInt")
+
+    val stmts = SequenceStmt(List(stmt01))
+
+    val typeCheckerErrors = stmts.accept(visitor)
+
+    assert(typeCheckerErrors.length == 1)
   }
 }

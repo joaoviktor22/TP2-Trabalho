@@ -161,7 +161,7 @@ case class BoolValue(value: Boolean) extends Value { type T = Boolean }
 
 trait AbsLocation extends Expression
 case class Location(loc: Int) extends AbsLocation
-case object Nil extends AbsLocation
+case object NilValue extends AbsLocation
 
 case object NullValue extends Expression
 case class Brackets(exp: Expression) extends Expression

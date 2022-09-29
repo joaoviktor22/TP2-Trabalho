@@ -1,6 +1,6 @@
 package br.unb.cic.oberon.environment
 
-import br.unb.cic.oberon.ast.{ArrayType, ArrayValue, Expression, Location, Procedure, Undef, UserDefinedType}
+import br.unb.cic.oberon.ast.{ArrayType, ArrayValue, Expression, Location, Procedure, Undef, UserDefinedType, AbsLocation, NilValue}
 
 import scala.collection.mutable.{ListBuffer, Map, Stack}
 
@@ -20,8 +20,8 @@ import scala.collection.mutable.{ListBuffer, Map, Stack}
 class Environment[T] {
   private var top_loc = 0
   private val locations = Map.empty[AbsLocation, T]
-  private val global = Map.empty[String, Location]
-  private val stack = Stack.empty[Map[String, Location]]
+  private val global = Map.empty[String, AbsLocation]
+  private val stack = Stack.empty[Map[String, AbsLocation]]
   private val procedures = Map.empty[String, Procedure]
   private val userDefinedTypes = Map.empty[String, UserDefinedType]
 
@@ -33,6 +33,11 @@ class Environment[T] {
     locations += Location(top_loc) -> value
   }
 
+  def setPointerVariable(name: String): Unit = {
+    top_loc += 1
+    global += name -> NilValue
+  }
+
   def addUserDefinedType(userType: UserDefinedType) : Unit = {
     userDefinedTypes += userDefinedTypeName(userType) -> userType
   }
@@ -40,7 +45,7 @@ class Environment[T] {
   def setLocalVariable(name: String, value: T) : Unit = {
     top_loc += 1
     if(stack.isEmpty) {
-      stack.push(Map.empty[String, Location])
+      stack.push(Map.empty[String, AbsLocation])
     }
     stack.top += name -> Location(top_loc)
     locations += Location(top_loc) -> value
@@ -101,7 +106,7 @@ class Environment[T] {
 
   def findProcedure(name: String): Procedure = procedures(name)
 
-  def push(): Unit = stack.push(Map.empty[String, Location])
+  def push(): Unit = stack.push(Map.empty[String, AbsLocation])
 
   def pop(): Unit = stack.pop()
 
